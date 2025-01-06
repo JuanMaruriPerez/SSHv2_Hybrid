@@ -1,3 +1,8 @@
+### Message 
+
+
+## Send 
+
 def send_all(conn, data):
     total_sent = 0
     data_len = len(data)
@@ -19,6 +24,11 @@ def send_message(conn, data):
     # Paso 2: Enviar el mensaje completo
     send_all(conn, data)
     #print("Mensaje enviado correctamente.")
+
+
+
+
+## Receive
 
 def receive_all(conn, expected_length):
     data = b""
