@@ -1,3 +1,19 @@
+Este codigo se corresponde a una implementacion en Python de un subconjunto de las operaciones 
+llevadas a cabo por el protoclo SSH hibrido propuesto por el IETF en el siguiente enlace:
+https://datatracker.ietf.org/doc/html/draft-kampanakis-curdle-ssh-pq-ke-05#name-message-size
+
+
+Subconjunto de operacion implementadas: 
+
+- Establecimineto conexion TCP 
+- Intercambio de claves clasico 
+- Intercambio de claves post-cuantico 
+- Calculo de claves 
+- Hibridacion de claves simetricas 
+- ?Derivación de claves de sesión 
+- Ejemplo de un intercambio de mensajes cifrados
+
+
 Cliente                                         Servidor
   |                                                |
   |-------------(1) TCP Connection---------------->|
@@ -25,7 +41,7 @@ Cliente                                         Servidor
 
 Cipher suites : 
 
-    mlkem768nistp256-sha256 <--
+    mlkem768nistp256-sha256 <-- Unico soportado, por ahora
     mlkem1024nistp384-sha384
     mlkem768x25519-sha256
 
