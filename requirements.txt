@@ -1,0 +1,3 @@
+paramiko
+liboqs
+cryptography @ file:///home/juanito/Documents/UPM/TFG/Cryptography/cryptography-43.0.3
