@@ -1,4 +1,6 @@
 import socket
+import oqs
+
 from message import send_message, receive_message
 
 from cryptography.hazmat.primitives.asymmetric import ec
@@ -34,8 +36,22 @@ def client_classic_exchange(client_socket: socket.socket) -> tuple[ec.EllipticCu
 
 
 def client_pqc_exchange(client_socket: socket.socket):
-
-    return
+    """
+    Realiza el intercambio de claves PQC en el lado del cliente.
+    """
+    with oqs.KeyEncapsulation("Kyber768") as kem:
+        # Generar clave pública y privada del cliente
+        public_key = kem.generate_keypair()
+        send_message(client_socket, public_key)
+        print("CLIENT: Client pqc public key sent.")
+        
+        # Recibir la clave encapsulada y un mensaje del servidor
+        ciphertext = receive_message(client_socket)
+        print("Client: PQC encapsulated key received.")
+        shared_secret = kem.decap_secret(ciphertext)  # Decapsular clave secreta
+        print("Client: PQC key decapsulated.")
+        
+        return shared_secret
 
 
 
@@ -69,6 +85,21 @@ def server_classic_exchange(conn: socket.socket) -> tuple[ec.EllipticCurvePrivat
 
 
 def server_pqc_exchange(conn: socket.socket):
-    return
+    """
+    Realiza el intercambio de claves PQC en el lado del servidor.
+    """
+    with oqs.KeyEncapsulation("Kyber768") as kem:
+        # Recibir la clave pública del cliente
+        client_public_key = receive_message(conn)
+        print("Server: Client pqc public key received.")
+        
+        # Encapsular la clave secreta utilizando la clave pública del cliente
+        ciphertext, shared_secret = kem.encap_secret(client_public_key)
+        print("Server: pqc key encapsulated.")
+        send_message(conn, ciphertext)
+        print("Server: PQC encapsulated key sent.")
+        
+        return shared_secret
+
 
 
